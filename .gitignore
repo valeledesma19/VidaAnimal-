@@ -1,0 +1,6 @@
+.idea/
+target/
+node_modules/
+dist/
+vidaanimal-backend/src/main/resources/application.properties
+*.iml
