@@ -87,8 +87,6 @@ public class TurnoService {
     }
 
     private void validarPropietario(Turno turno, Turno datosNuevos) {
-        // Placeholder: la validación real de "es dueño de esta mascota"
-        // se resuelve cuando conectemos esto con el JWT/SecurityContext,
-        // ahí vas a tener el clienteId autenticado para comparar contra turno.getMascota().getCliente().getId()
+
     }
 }
