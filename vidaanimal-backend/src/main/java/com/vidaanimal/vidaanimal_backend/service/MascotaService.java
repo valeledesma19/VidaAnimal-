@@ -25,6 +25,14 @@ public class MascotaService {
                 .orElseThrow(() -> new BusinessException("Mascota no encontrada"));
     }
 
+    public Mascota buscarPorIdValidandoAcceso(Integer id, Integer clienteIdAutenticado) {
+        Mascota mascota = buscarPorId(id);
+        if (clienteIdAutenticado != null) {
+            validarPropietario(mascota, clienteIdAutenticado);
+        }
+        return mascota;
+    }
+
     public List<Mascota> buscarPorClienteId(Integer clienteId) {
         return mascotaRepository.findByClienteId(clienteId);
     }

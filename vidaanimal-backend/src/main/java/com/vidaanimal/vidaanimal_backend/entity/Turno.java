@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Entity
-@Table(name = "turno", uniqueConstraints = @UniqueConstraint(columnNames = {"fecha", "hora"}))
+@Table(name = "turno")
 public class Turno {
 
     @Id

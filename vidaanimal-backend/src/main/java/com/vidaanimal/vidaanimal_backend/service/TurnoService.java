@@ -10,10 +10,17 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class TurnoService {
+
+    private static final LocalTime HORA_APERTURA = LocalTime.of(9, 0);
+    private static final LocalTime HORA_CIERRE = LocalTime.of(18, 0);
+    private static final int DURACION_TURNO_MIN = 30;
 
     private final TurnoRepository turnoRepository;
 
@@ -21,17 +28,20 @@ public class TurnoService {
         this.turnoRepository = turnoRepository;
     }
 
-    public Turno crear(Turno turno) {
+    public Turno crear(Turno turno, Integer clienteIdAutenticado) {
+        if (clienteIdAutenticado != null) {
+            validarPropietario(turno, clienteIdAutenticado);
+        }
         validarDisponibilidad(turno.getFecha(), turno.getHora(), null);
         turno.setEstado(EstadoTurno.CONFIRMADO);
         return turnoRepository.save(turno);
     }
 
-    public Turno editar(Integer id, Turno datosNuevos, boolean esCliente) {
+    public Turno editar(Integer id, Turno datosNuevos, Integer clienteIdAutenticado) {
         Turno existente = buscarPorId(id);
 
-        if (esCliente) {
-            validarPropietario(existente, datosNuevos);
+        if (clienteIdAutenticado != null) {
+            validarPropietario(existente, clienteIdAutenticado);
             validarAntiguedad(existente);
         }
 
@@ -46,10 +56,11 @@ public class TurnoService {
         return turnoRepository.save(existente);
     }
 
-    public void cancelar(Integer id, boolean esCliente) {
+    public void cancelar(Integer id, Integer clienteIdAutenticado) {
         Turno existente = buscarPorId(id);
 
-        if (esCliente) {
+        if (clienteIdAutenticado != null) {
+            validarPropietario(existente, clienteIdAutenticado);
             validarAntiguedad(existente);
         }
 
@@ -63,18 +74,35 @@ public class TurnoService {
     }
 
     public List<Turno> buscarPorFecha(LocalDate fecha) {
-        return turnoRepository.findByFecha(fecha);
+        return turnoRepository.findByFechaAndEstado(fecha, EstadoTurno.CONFIRMADO);
     }
 
     public List<Turno> buscarPorCliente(Integer clienteId) {
         return turnoRepository.findByMascota_Cliente_Id(clienteId);
     }
 
+    public List<LocalTime> listarDisponibilidad(LocalDate fecha) {
+        Set<LocalTime> ocupados = turnoRepository.findByFechaAndEstado(fecha, EstadoTurno.CONFIRMADO)
+                .stream()
+                .map(Turno::getHora)
+                .collect(Collectors.toSet());
+
+        List<LocalTime> libres = new ArrayList<>();
+        LocalTime cursor = HORA_APERTURA;
+        while (cursor.isBefore(HORA_CIERRE)) {
+            if (!ocupados.contains(cursor)) {
+                libres.add(cursor);
+            }
+            cursor = cursor.plusMinutes(DURACION_TURNO_MIN);
+        }
+        return libres;
+    }
+
     private void validarDisponibilidad(LocalDate fecha, LocalTime hora, Integer idAIgnorar) {
-        turnoRepository.findByFechaAndHora(fecha, hora)
+        turnoRepository.findByFechaAndHoraAndEstado(fecha, hora, EstadoTurno.CONFIRMADO)
                 .filter(t -> !t.getId().equals(idAIgnorar))
                 .ifPresent(t -> {
-                    throw new BusinessException("Ya existe un turno en ese horario");
+                    throw new BusinessException("Ya existe un turno confirmado en ese horario");
                 });
     }
 
@@ -86,7 +114,9 @@ public class TurnoService {
         }
     }
 
-    private void validarPropietario(Turno turno, Turno datosNuevos) {
-
+    private void validarPropietario(Turno turno, Integer clienteId) {
+        if (!turno.getMascota().getCliente().getId().equals(clienteId)) {
+            throw new BusinessException("No tenés permiso sobre este turno");
+        }
     }
 }
