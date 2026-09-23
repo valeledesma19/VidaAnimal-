@@ -23,9 +23,11 @@ public class TurnoService {
     private static final int DURACION_TURNO_MIN = 30;
 
     private final TurnoRepository turnoRepository;
+    private final EmailService emailService;
 
-    public TurnoService(TurnoRepository turnoRepository) {
+    public TurnoService(TurnoRepository turnoRepository, EmailService emailService) {
         this.turnoRepository = turnoRepository;
+        this.emailService = emailService;
     }
 
     public Turno crear(Turno turno, Integer clienteIdAutenticado) {
@@ -34,7 +36,9 @@ public class TurnoService {
         }
         validarDisponibilidad(turno.getFecha(), turno.getHora(), null);
         turno.setEstado(EstadoTurno.CONFIRMADO);
-        return turnoRepository.save(turno);
+        Turno guardado = turnoRepository.save(turno);
+        emailService.enviarConfirmacionTurno(guardado);
+        return guardado;
     }
 
     public Turno editar(Integer id, Turno datosNuevos, Integer clienteIdAutenticado) {
