@@ -28,6 +28,14 @@ public class Mascota {
     @Column(name = "fecha_nacimiento", nullable = false)
     private LocalDate fechaNacimiento;
 
+    @Column(name = "fecha_alta", nullable = false, updatable = false)
+    private LocalDate fechaAlta;
+
+    @PrePersist
+    protected void alPersistir() {
+        this.fechaAlta = LocalDate.now();
+    }
+
     public Mascota() {
     }
 
@@ -73,5 +81,9 @@ public class Mascota {
 
     public void setFechaNacimiento(LocalDate fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public LocalDate getFechaAlta() {
+        return fechaAlta;
     }
 }

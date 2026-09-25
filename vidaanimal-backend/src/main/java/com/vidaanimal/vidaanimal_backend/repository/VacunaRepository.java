@@ -16,4 +16,12 @@ public interface VacunaRepository extends JpaRepository<Vacuna, Integer> {
               BETWEEN CURRENT_DATE AND CURRENT_DATE + INTERVAL '30 days'
         """, nativeQuery = true)
     List<Vacuna> findProximasAVencer();
+
+    @Query(value = """
+        SELECT nombre, COUNT(*) AS cantidad
+        FROM vacuna
+        GROUP BY nombre
+        ORDER BY cantidad DESC
+        """, nativeQuery = true)
+    List<Object[]> contarVacunasMasAplicadas();
 }
