@@ -5,8 +5,10 @@ const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
+  const esRutaPublica = config.url.startsWith('/auth');
   const token = localStorage.getItem('token');
-  if (token) {
+
+  if (token && !esRutaPublica) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
