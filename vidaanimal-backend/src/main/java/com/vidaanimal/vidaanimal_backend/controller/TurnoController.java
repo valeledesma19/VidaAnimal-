@@ -100,4 +100,12 @@ public class TurnoController {
                 turno.getEstado()
         );
     }
+    @GetMapping("/mios")
+    public List<TurnoResponse> misTurnos(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        Integer clienteId = resolverClienteId(userDetails.getUsuario());
+        if (clienteId == null) {
+            throw new IllegalArgumentException("Este endpoint es solo para clientes");
+        }
+        return turnoService.buscarPorCliente(clienteId).stream().map(this::toResponse).toList();
+    }
 }

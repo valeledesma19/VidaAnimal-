@@ -53,10 +53,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
             }
         } catch (Exception e) {
-            // Token invalido/expirado/corrupto: seguimos como anonimo,
-            // no rompemos el request entero por un token malo.
         }
 
         filterChain.doFilter(request, response);
-    }
-}
+    }}
