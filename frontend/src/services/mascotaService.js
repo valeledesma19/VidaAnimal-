@@ -14,3 +14,8 @@ export async function crearMascota(datos) {
   const { data } = await api.post('/mascotas', datos);
   return data;
 }
+
+export async function buscarMascotas(nombre) {
+  const { data } = await api.get('/mascotas/buscar', { params: { nombre } });
+  return data;
+}

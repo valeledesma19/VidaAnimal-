@@ -42,4 +42,8 @@ public class MascotaService {
             throw new BusinessException("No tenés permiso sobre esta mascota");
         }
     }
+
+    public List<Mascota> buscarPorNombre(String nombre) {
+        return mascotaRepository.findByNombreContainingIgnoreCase(nombre);
+    }
 }

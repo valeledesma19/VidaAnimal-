@@ -17,4 +17,6 @@ public interface MascotaRepository extends JpaRepository<Mascota, Integer> {
         ORDER BY mes
         """, nativeQuery = true)
     List<Object[]> contarMascotasNuevasPorMes();
+
+    List<Mascota> findByNombreContainingIgnoreCase(String nombre);
 }

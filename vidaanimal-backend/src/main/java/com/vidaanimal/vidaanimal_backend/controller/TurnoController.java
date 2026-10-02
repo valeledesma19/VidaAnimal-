@@ -3,6 +3,7 @@ package com.vidaanimal.vidaanimal_backend.controller;
 import com.vidaanimal.vidaanimal_backend.dto.TurnoRequest;
 import com.vidaanimal.vidaanimal_backend.dto.TurnoResponse;
 import com.vidaanimal.vidaanimal_backend.entity.*;
+import com.vidaanimal.vidaanimal_backend.exception.BusinessException;
 import com.vidaanimal.vidaanimal_backend.security.CustomUserDetails;
 import com.vidaanimal.vidaanimal_backend.service.ClienteService;
 import com.vidaanimal.vidaanimal_backend.service.MascotaService;
@@ -39,6 +40,20 @@ public class TurnoController {
     @GetMapping("/agenda")
     public List<TurnoResponse> agenda(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha) {
         return turnoService.buscarPorFecha(fecha).stream().map(this::toResponse).toList();
+    }
+
+    @GetMapping("/{id}")
+    public TurnoResponse obtener(@PathVariable Integer id,
+                                 @AuthenticationPrincipal CustomUserDetails userDetails) {
+        Turno turno = turnoService.buscarPorId(id);
+        Integer clienteIdAutenticado = resolverClienteId(userDetails.getUsuario());
+
+        if (clienteIdAutenticado != null
+                && !turno.getMascota().getCliente().getId().equals(clienteIdAutenticado)) {
+            throw new BusinessException("No tenés permiso sobre este turno");
+        }
+
+        return toResponse(turno);
     }
 
     @PostMapping

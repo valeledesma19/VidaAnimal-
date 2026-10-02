@@ -18,3 +18,18 @@ export async function crearTurno(datos) {
 export async function cancelarTurno(id) {
   await api.delete(`/turnos/${id}`);
 }
+
+export async function listarAgenda(fecha) {
+  const { data } = await api.get('/turnos/agenda', { params: { fecha } });
+  return data;
+}
+
+export async function editarTurno(id, datos) {
+  const { data } = await api.put(`/turnos/${id}`, datos);
+  return data;
+}
+
+export async function obtenerTurno(id) {
+  const { data } = await api.get(`/turnos/${id}`);
+  return data;
+}

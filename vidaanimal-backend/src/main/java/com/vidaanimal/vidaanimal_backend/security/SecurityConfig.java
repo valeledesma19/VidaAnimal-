@@ -54,7 +54,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/turnos/agenda", "/api/vacunas/alertas",
                                 "/api/mascotas/*/vacunas", "/api/mascotas/*/peso",
-                                "/api/reportes/**").hasRole("EMPLEADO")
+                                "/api/mascotas/buscar", "/api/reportes/**").hasRole("EMPLEADO")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

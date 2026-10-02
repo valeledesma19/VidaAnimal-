@@ -60,6 +60,19 @@ public class MascotaController {
                 .toList();
     }
 
+    @GetMapping("/buscar")
+    public List<MascotaBusquedaResponse> buscar(@RequestParam String nombre) {
+        return mascotaService.buscarPorNombre(nombre).stream()
+                .map(m -> new MascotaBusquedaResponse(
+                        m.getId(),
+                        m.getNombre(),
+                        m.getRaza(),
+                        m.getCliente().getId(),
+                        m.getCliente().getNombre() + " " + m.getCliente().getApellido()
+                ))
+                .toList();
+    }
+
     @PostMapping
     public ResponseEntity<MascotaResponse> crear(@Valid @RequestBody MascotaRequest request,
                                                  @AuthenticationPrincipal CustomUserDetails userDetails) {
