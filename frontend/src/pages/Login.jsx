@@ -35,38 +35,49 @@ export default function Login() {
   }
 
   return (
-    <div>
-      <h1>VidaAnimal - Iniciar sesión</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Contraseña</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
+    <div className="auth-page">
+      <svg className="auth-paw" viewBox="0 0 200 200" aria-hidden="true">
+        <circle cx="100" cy="130" r="38" />
+        <circle cx="55" cy="75" r="20" />
+        <circle cx="100" cy="55" r="22" />
+        <circle cx="145" cy="75" r="20" />
+      </svg>
 
-        {error && <p style={{ color: 'red' }}>{error}</p>}
+      <div className="auth-card">
+        <h1>VidaAnimal</h1>
+        <p className="auth-subtitle">Iniciá sesión para continuar</p>
 
-        <button type="submit" disabled={cargando}>
-          {cargando ? 'Ingresando...' : 'Ingresar'}
-        </button>
-      </form>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label>Email</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label>Contraseña</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
 
-      <p>
-        ¿No tenés cuenta? <Link to="/registro">Registrate</Link>
-      </p>
+          {error && <p style={{ color: 'red' }}>{error}</p>}
+
+          <button type="submit" disabled={cargando}>
+            {cargando ? 'Ingresando...' : 'Ingresar'}
+          </button>
+        </form>
+
+        <p className="auth-footer">
+          ¿No tenés cuenta? <Link to="/registro">Registrate</Link>
+        </p>
+      </div>
     </div>
   );
 }

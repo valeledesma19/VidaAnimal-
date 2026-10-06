@@ -1,0 +1,253 @@
+#root .home {
+  max-width: none;
+  margin: 0;
+  width: 100%;
+}
+
+.home-nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1rem clamp(1.5rem, 5vw, 4rem);
+  background: rgba(245, 247, 242, 0.92);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.home-logo {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--color-primary-dark);
+}
+
+.home-nav nav {
+  display: flex;
+  gap: 1.75rem;
+  flex: 1;
+  justify-content: center;
+}
+
+.home-nav nav a {
+  color: var(--color-ink);
+  font-size: 0.95rem;
+  border-bottom: 1px solid transparent;
+}
+
+.home-nav nav a:hover {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+}
+
+.btn-nav {
+  background: var(--color-primary);
+  color: #fff;
+  padding: 0.55rem 1.1rem;
+  border-radius: var(--radius);
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.9rem;
+  border-bottom: none !important;
+}
+
+.btn-nav:hover {
+  background: var(--color-primary-dark);
+}
+
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(3.5rem, 10vw, 7rem) clamp(1.5rem, 5vw, 4rem) clamp(5rem, 8vw, 6rem);
+  background: linear-gradient(180deg, #EAF0E6 0%, var(--color-bg) 100%);
+}
+
+.hero-paw {
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 340px;
+  height: 340px;
+  fill: var(--color-primary);
+  opacity: 0.06;
+  transform: rotate(18deg);
+}
+
+.hero-content {
+  position: relative;
+  max-width: 640px;
+}
+
+.hero h1 {
+  font-size: clamp(2.1rem, 5vw, 3.1rem);
+  font-weight: 700;
+  color: var(--color-primary-dark);
+  margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+  font-size: 1.1rem;
+  color: var(--color-muted);
+  max-width: 480px;
+  margin-bottom: 2rem;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: #fff;
+  padding: 0.85rem 1.75rem;
+  border-radius: var(--radius);
+  font-family: var(--font-heading);
+  font-weight: 600;
+  border-bottom: none !important;
+  transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+.btn-primary:hover {
+  background: var(--color-primary-dark);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  padding: 0.85rem 1.75rem;
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius);
+  color: var(--color-primary-dark);
+  font-family: var(--font-heading);
+  font-weight: 600;
+}
+
+.btn-secondary:hover {
+  background: var(--color-success-bg);
+  border-bottom: 1px solid var(--color-primary) !important;
+}
+
+
+.wave-divider {
+  display: block;
+  width: 100%;
+  height: 60px;
+  margin-top: -1px;
+}
+
+.wave-divider path {
+  fill: var(--color-surface);
+}
+
+.seccion {
+  padding: clamp(2.5rem, 6vw, 4rem) clamp(1.5rem, 5vw, 4rem);
+  max-width: 1040px;
+  margin: 0 auto;
+}
+
+.seccion h2 {
+  font-size: 1.8rem;
+  border-bottom: none;
+  margin-bottom: 1.5rem;
+}
+
+.nosotros p {
+  max-width: 680px;
+  font-size: 1.05rem;
+  color: var(--color-ink);
+}
+
+
+
+.grid-servicios {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 1.5rem;
+}
+
+.card-servicio {
+  padding: 1.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.card-servicio:hover {
+  border-color: var(--color-accent);
+  transform: translateY(-3px);
+}
+
+.card-servicio svg {
+  width: 40px;
+  height: 40px;
+  fill: none;
+  stroke: var(--color-primary);
+  stroke-width: 2.4;
+  margin-bottom: 1rem;
+}
+
+.card-servicio h3 {
+  margin-top: 0;
+  font-size: 1.05rem;
+}
+
+.card-servicio p {
+  font-size: 0.9rem;
+  color: var(--color-muted);
+  margin: 0;
+}
+
+
+
+.contacto {
+  background: #EFF3EC;
+  border-radius: var(--radius);
+  text-align: left;
+}
+
+.contacto-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.contacto-grid h3 {
+  font-size: 0.95rem;
+  color: var(--color-primary-dark);
+  margin: 0 0 0.3rem 0;
+}
+
+.contacto-grid p {
+  margin: 0;
+  color: var(--color-muted);
+}
+
+
+
+.home-footer {
+  text-align: center;
+  padding: 2rem;
+  font-size: 0.85rem;
+  color: var(--color-muted);
+  border-top: 1px solid var(--color-border);
+}
+
+
+
+@media (max-width: 720px) {
+  .home-nav nav {
+    display: none;
+  }
+
+  .hero-paw {
+    width: 220px;
+    height: 220px;
+  }
+}

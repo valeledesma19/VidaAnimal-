@@ -50,9 +50,7 @@ export default function Agenda() {
         {turnos.map((t) => (
           <li key={t.id}>
             {t.hora} — {t.mascotaNombre} — {t.motivo || 'sin motivo'}
-                        <Link to={`editar/${t.id}`}> Editar</Link>
-              {' '}Editar
-            </Link>
+            <Link to={`editar/${t.id}`}> Editar</Link>
             <button onClick={() => handleCancelar(t.id)}>Cancelar</button>
           </li>
         ))}

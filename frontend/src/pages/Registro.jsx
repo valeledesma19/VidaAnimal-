@@ -39,40 +39,51 @@ export default function Registro() {
   }
 
   return (
-    <div>
-      <h1>VidaAnimal - Crear cuenta</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Email</label>
-          <input type="email" name="email" value={form.email} onChange={handleChange} required />
-        </div>
-        <div>
-          <label>Contraseña</label>
-          <input type="password" name="password" value={form.password} onChange={handleChange} required minLength={8} />
-        </div>
-        <div>
-          <label>Nombre</label>
-          <input type="text" name="nombre" value={form.nombre} onChange={handleChange} required />
-        </div>
-        <div>
-          <label>Apellido</label>
-          <input type="text" name="apellido" value={form.apellido} onChange={handleChange} required />
-        </div>
-        <div>
-          <label>Teléfono</label>
-          <input type="text" name="telefono" value={form.telefono} onChange={handleChange} required />
-        </div>
+    <div className="auth-page">
+      <svg className="auth-paw" viewBox="0 0 200 200" aria-hidden="true">
+        <circle cx="100" cy="130" r="38" />
+        <circle cx="55" cy="75" r="20" />
+        <circle cx="100" cy="55" r="22" />
+        <circle cx="145" cy="75" r="20" />
+      </svg>
 
-        {error && <p style={{ color: 'red' }}>{error}</p>}
+      <div className="auth-card">
+        <h1>VidaAnimal</h1>
+        <p className="auth-subtitle">Creá tu cuenta para reservar turnos</p>
 
-        <button type="submit" disabled={cargando}>
-          {cargando ? 'Creando cuenta...' : 'Crear cuenta'}
-        </button>
-      </form>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label>Email</label>
+            <input type="email" name="email" value={form.email} onChange={handleChange} required />
+          </div>
+          <div>
+            <label>Contraseña</label>
+            <input type="password" name="password" value={form.password} onChange={handleChange} required minLength={8} />
+          </div>
+          <div>
+            <label>Nombre</label>
+            <input type="text" name="nombre" value={form.nombre} onChange={handleChange} required />
+          </div>
+          <div>
+            <label>Apellido</label>
+            <input type="text" name="apellido" value={form.apellido} onChange={handleChange} required />
+          </div>
+          <div>
+            <label>Teléfono</label>
+            <input type="text" name="telefono" value={form.telefono} onChange={handleChange} required />
+          </div>
 
-      <p>
-        ¿Ya tenés cuenta? <Link to="/login">Iniciar sesión</Link>
-      </p>
+          {error && <p style={{ color: 'red' }}>{error}</p>}
+
+          <button type="submit" disabled={cargando}>
+            {cargando ? 'Creando cuenta...' : 'Crear cuenta'}
+          </button>
+        </form>
+
+        <p className="auth-footer">
+          ¿Ya tenés cuenta? <Link to="/login">Iniciar sesión</Link>
+        </p>
+      </div>
     </div>
   );
 }
