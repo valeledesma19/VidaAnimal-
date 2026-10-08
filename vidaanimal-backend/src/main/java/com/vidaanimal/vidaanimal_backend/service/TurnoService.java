@@ -104,7 +104,7 @@ public class TurnoService {
 
     private void validarDisponibilidad(LocalDate fecha, LocalTime hora, Integer idAIgnorar) {
         turnoRepository.findByFechaAndHoraAndEstado(fecha, hora, EstadoTurno.CONFIRMADO)
-                .filter(t -> !t.getId().equals(idAIgnorar))
+                .filter(t -> idAIgnorar == null || !t.getId().equals(idAIgnorar))
                 .ifPresent(t -> {
                     throw new BusinessException("Ya existe un turno confirmado en ese horario");
                 });
