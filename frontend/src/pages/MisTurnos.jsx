@@ -39,7 +39,7 @@ export default function MisTurnos() {
   return (
     <div>
       <h2>Mis turnos</h2>
-      <Link to="nuevo">+ Reservar turno</Link>
+      <Link to="/cliente/turnos/nuevo">+ Reservar turno</Link>
 
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
@@ -50,7 +50,10 @@ export default function MisTurnos() {
           <li key={t.id}>
             {t.fecha} {t.hora} — {t.mascotaNombre} — {t.estado}
             {t.estado === 'CONFIRMADO' && (
-              <button onClick={() => handleCancelar(t.id)}>Cancelar</button>
+              <>
+                <Link to={`/cliente/turnos/editar/${t.id}`}>Editar</Link>
+                <button onClick={() => handleCancelar(t.id)}>Cancelar</button>
+              </>
             )}
           </li>
         ))}

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { obtenerTurno, listarDisponibilidad, editarTurno } from '../services/turnoService';
 
-export default function EditarTurno() {
+export default function EditarTurno({ volverA }) {
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -21,7 +21,9 @@ export default function EditarTurno() {
         setFecha(t.fecha);
         setHora(t.hora);
         setMotivo(t.motivo || '');
+        return listarDisponibilidad(t.fecha);
       })
+      .then(setHorasLibres)
       .catch(() => setError('No se pudo cargar el turno'));
   }, [id]);
 
@@ -29,7 +31,7 @@ export default function EditarTurno() {
     setFecha(nuevaFecha);
     try {
       const libres = await listarDisponibilidad(nuevaFecha);
-      setHorasLibres(nuevaFecha === turnoOriginal.fecha ? [...libres, turnoOriginal.hora] : libres);
+      setHorasLibres(libres);
     } catch {
       setHorasLibres([]);
     }
@@ -42,7 +44,7 @@ export default function EditarTurno() {
 
     try {
       await editarTurno(id, { mascotaId: turnoOriginal.mascotaId, fecha, hora, motivo });
-      navigate('..');
+      navigate(volverA);
     } catch (err) {
       const mensaje = err.response?.data?.error || 'No se pudo editar el turno';
       setError(mensaje);

@@ -5,6 +5,7 @@ import NuevaMascota from './NuevaMascota';
 import FichaMascota from './FichaMascota';
 import MisTurnos from './MisTurnos';
 import ReservarTurno from './ReservarTurno';
+import EditarTurno from './EditarTurno';
 
 export default function PanelCliente() {
   const { logout } = useAuth();
@@ -35,6 +36,7 @@ export default function PanelCliente() {
           <Route path="mascotas/:id" element={<FichaMascota />} />
           <Route path="turnos" element={<MisTurnos />} />
           <Route path="turnos/nuevo" element={<ReservarTurno />} />
+          <Route path="turnos/editar/:id" element={<EditarTurno volverA="/cliente/turnos" />} />
         </Routes>
       </div>
     </div>
