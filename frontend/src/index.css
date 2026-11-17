@@ -429,3 +429,8 @@ header nav a + a::before {
   position: relative;
   z-index: 1;
 }
+.turno-pasado {
+  font-size: 0.8rem;
+  color: var(--color-muted);
+  margin-left: var(--space-1);
+}

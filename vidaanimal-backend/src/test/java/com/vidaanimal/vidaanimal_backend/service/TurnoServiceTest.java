@@ -94,4 +94,13 @@ class TurnoServiceTest {
         assertDoesNotThrow(() -> turnoService.cancelar(1, null)); // null = empleado
         assertEquals(EstadoTurno.CANCELADO, turno.getEstado());
     }
+    @Test
+    void crear_fechaPasada_lanzaBusinessException() {
+        Turno turno = new Turno();
+        turno.setFecha(LocalDate.now().minusDays(1));
+        turno.setHora(LocalTime.of(10, 0));
+
+        assertThrows(BusinessException.class, () -> turnoService.crear(turno, null));
+        verify(turnoRepository, never()).save(any());
+    }
 }

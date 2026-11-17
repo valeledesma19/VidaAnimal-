@@ -34,6 +34,7 @@ public class TurnoService {
         if (clienteIdAutenticado != null) {
             validarPropietario(turno, clienteIdAutenticado);
         }
+        validarNoEsPasado(turno.getFecha(), turno.getHora());
         validarDisponibilidad(turno.getFecha(), turno.getHora(), null);
         turno.setEstado(EstadoTurno.CONFIRMADO);
         Turno guardado = turnoRepository.save(turno);
@@ -51,6 +52,7 @@ public class TurnoService {
 
         if (!existente.getFecha().equals(datosNuevos.getFecha())
                 || !existente.getHora().equals(datosNuevos.getHora())) {
+            validarNoEsPasado(datosNuevos.getFecha(), datosNuevos.getHora());
             validarDisponibilidad(datosNuevos.getFecha(), datosNuevos.getHora(), id);
         }
 
@@ -58,6 +60,12 @@ public class TurnoService {
         existente.setHora(datosNuevos.getHora());
         existente.setMotivo(datosNuevos.getMotivo());
         return turnoRepository.save(existente);
+    }
+
+    private void validarNoEsPasado(LocalDate fecha, LocalTime hora) {
+        if (LocalDateTime.of(fecha, hora).isBefore(LocalDateTime.now())) {
+            throw new BusinessException("No se pueden reservar turnos en una fecha u hora que ya pasó");
+        }
     }
 
     public void cancelar(Integer id, Integer clienteIdAutenticado) {
