@@ -10,6 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -50,7 +51,7 @@ class TurnoServiceTest {
     @Test
     void crear_turnoEnHorarioLibre_loConfirmaYMandaEmail() {
         Turno turno = new Turno();
-        turno.setFecha(LocalDate.now().plusDays(5));
+        turno.setFecha(proximoDiaHabil());
         turno.setHora(LocalTime.of(10, 0));
 
         when(turnoRepository.findByFechaAndHoraAndEstado(turno.getFecha(), turno.getHora(), EstadoTurno.CONFIRMADO))
@@ -67,7 +68,7 @@ class TurnoServiceTest {
     @Test
     void crear_horarioYaOcupado_lanzaBusinessException() {
         Turno turno = new Turno();
-        turno.setFecha(LocalDate.now().plusDays(5));
+        turno.setFecha(proximoDiaHabil());
         turno.setHora(LocalTime.of(10, 0));
 
         Turno existente = new Turno();
@@ -98,6 +99,20 @@ class TurnoServiceTest {
     void crear_fechaPasada_lanzaBusinessException() {
         Turno turno = new Turno();
         turno.setFecha(LocalDate.now().minusDays(1));
+        turno.setHora(LocalTime.of(10, 0));
+
+        assertThrows(BusinessException.class, () -> turnoService.crear(turno, null));
+        verify(turnoRepository, never()).save(any());
+    }
+    private LocalDate proximoDiaHabil() {
+        LocalDate fecha = LocalDate.now().plusDays(5);
+        return fecha.getDayOfWeek() == DayOfWeek.SUNDAY ? fecha.plusDays(1) : fecha;
+    }
+
+    @Test
+    void crear_enDomingo_lanzaBusinessException() {
+        Turno turno = new Turno();
+        turno.setFecha(LocalDate.now().with(java.time.temporal.TemporalAdjusters.next(DayOfWeek.SUNDAY)));
         turno.setHora(LocalTime.of(10, 0));
 
         assertThrows(BusinessException.class, () -> turnoService.crear(turno, null));

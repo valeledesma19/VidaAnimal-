@@ -153,7 +153,7 @@ Se incluyen 10 pruebas: las reglas de negocio de los turnos (horario libre, hora
 
 ## Reglas de negocio
 
-- No puede existir más de un turno confirmado en el mismo día y horario. Los turnos tienen una duración de 30 minutos y se ofrecen entre las 9:00 y las 18:00. Un turno cancelado libera su horario.
+- No puede existir más de un turno confirmado en el mismo día y horario. Los turnos tienen una duración de 30 minutos y se ofrecen de lunes a sábado, entre las 9:00 y las 18:00. Un turno cancelado libera su horario.
 - No es posible reservar ni reprogramar turnos para una fecha u hora que ya transcurrió.
 - El cliente solo puede editar o cancelar sus turnos si faltan 24 horas o más. La validación se realiza en el backend y no únicamente en la interfaz.
 - El cliente solo accede a sus propias mascotas y turnos; el empleado puede operar sobre cualquiera.

@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.time.DayOfWeek;
 
 @Service
 public class TurnoService {
@@ -34,6 +35,7 @@ public class TurnoService {
         if (clienteIdAutenticado != null) {
             validarPropietario(turno, clienteIdAutenticado);
         }
+        validarDiaHabil(turno.getFecha());
         validarNoEsPasado(turno.getFecha(), turno.getHora());
         validarDisponibilidad(turno.getFecha(), turno.getHora(), null);
         turno.setEstado(EstadoTurno.CONFIRMADO);
@@ -52,6 +54,7 @@ public class TurnoService {
 
         if (!existente.getFecha().equals(datosNuevos.getFecha())
                 || !existente.getHora().equals(datosNuevos.getHora())) {
+            validarDiaHabil(datosNuevos.getFecha());
             validarNoEsPasado(datosNuevos.getFecha(), datosNuevos.getHora());
             validarDisponibilidad(datosNuevos.getFecha(), datosNuevos.getHora(), id);
         }
@@ -65,6 +68,11 @@ public class TurnoService {
     private void validarNoEsPasado(LocalDate fecha, LocalTime hora) {
         if (LocalDateTime.of(fecha, hora).isBefore(LocalDateTime.now())) {
             throw new BusinessException("No se pueden reservar turnos en una fecha u hora que ya pasó");
+        }
+    }
+    private void validarDiaHabil(LocalDate fecha) {
+        if (fecha.getDayOfWeek() == DayOfWeek.SUNDAY) {
+            throw new BusinessException("No se atiende los domingos");
         }
     }
 
@@ -94,6 +102,10 @@ public class TurnoService {
     }
 
     public List<LocalTime> listarDisponibilidad(LocalDate fecha) {
+        if (fecha.getDayOfWeek() == DayOfWeek.SUNDAY) {
+            return List.of();
+        }
+
         Set<LocalTime> ocupados = turnoRepository.findByFechaAndEstado(fecha, EstadoTurno.CONFIRMADO)
                 .stream()
                 .map(Turno::getHora)

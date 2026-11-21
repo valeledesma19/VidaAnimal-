@@ -45,6 +45,7 @@ export default function ReservarTurno() {
       setCargando(false);
     }
   }
+  const esDomingo = fecha && new Date(`${fecha}T00:00:00`).getDay() === 0;
 
   return (
     <div>
@@ -70,7 +71,9 @@ export default function ReservarTurno() {
         {fecha && (
           <div>
             <label>Horario</label>
-            {horasLibres.length === 0 && <p>No hay horarios libres ese día.</p>}
+                        {horasLibres.length === 0 && (
+                          <p>{esDomingo ? 'No se atiende los domingos.' : 'No hay horarios libres ese día.'}</p>
+                        )}
             <select value={hora} onChange={(e) => setHora(e.target.value)} required>
               <option value="">Elegí un horario</option>
               {horasLibres.map((h) => (
