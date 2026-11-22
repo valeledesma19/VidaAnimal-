@@ -7,7 +7,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.time.format.DateTimeFormatter;
-
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 @Service
 public class EmailService {
 
@@ -48,6 +49,7 @@ public class EmailService {
     public void enviarAlertaVacunaProximaAVencer(Vacuna vacuna) {
         String destinatario = vacuna.getMascota().getCliente().getUsuario().getEmail();
         String nombreMascota = vacuna.getMascota().getNombre();
+        long dias = ChronoUnit.DAYS.between(LocalDate.now(), vacuna.getFechaVencimiento());
 
         SimpleMailMessage mensaje = new SimpleMailMessage();
         mensaje.setTo(destinatario);
@@ -55,7 +57,7 @@ public class EmailService {
         mensaje.setText("""
                 Hola,
 
-                La vacuna "%s" de %s vence el día %s.
+                La vacuna "%s" de %s vence en %d días, el %s.
 
                 Te recomendamos coordinar un turno para renovarla.
 
@@ -64,6 +66,7 @@ public class EmailService {
                 """.formatted(
                 vacuna.getNombre(),
                 nombreMascota,
+                dias,
                 vacuna.getFechaVencimiento().format(FORMATO_FECHA)
         ));
 

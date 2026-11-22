@@ -24,4 +24,11 @@ public interface VacunaRepository extends JpaRepository<Vacuna, Integer> {
         ORDER BY cantidad DESC
         """, nativeQuery = true)
     List<Object[]> contarVacunasMasAplicadas();
+
+    @Query(value = """
+        SELECT * FROM vacuna v
+        WHERE (v.fecha_aplicacion + (v.duracion_meses || ' months')::interval)::date
+              IN (CURRENT_DATE + 7, CURRENT_DATE + 3)
+        """, nativeQuery = true)
+    List<Vacuna> findParaRecordatorio();
 }

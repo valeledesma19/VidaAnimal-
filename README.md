@@ -22,7 +22,7 @@ Trabajo Final Integrador de la Tecnicatura Universitaria en Programación, UTN F
 
 **Procesos automáticos**
 - Envío de un email de confirmación cada vez que se crea un turno, independientemente de quién lo registre.
-- Envío diario, a las 8:00, de un email a los clientes cuyas mascotas tienen vacunas próximas a vencer.
+- Envío de un recordatorio por email a los clientes cuando faltan 7 y 3 días para el vencimiento de una vacuna de su mascota (proceso diario a las 8:00).
 
 ## Tecnologías
 

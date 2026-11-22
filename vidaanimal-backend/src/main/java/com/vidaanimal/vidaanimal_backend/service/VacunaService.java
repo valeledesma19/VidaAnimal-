@@ -32,4 +32,8 @@ public class VacunaService {
         return vacunaRepository.findById(id)
                 .orElseThrow(() -> new BusinessException("Vacuna no encontrada"));
     }
+
+    public List<Vacuna> buscarParaRecordatorio() {
+        return vacunaRepository.findParaRecordatorio();
+    }
 }

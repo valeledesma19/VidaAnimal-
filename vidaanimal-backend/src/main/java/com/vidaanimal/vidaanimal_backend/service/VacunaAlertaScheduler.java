@@ -3,6 +3,7 @@ package com.vidaanimal.vidaanimal_backend.service;
 import com.vidaanimal.vidaanimal_backend.entity.Vacuna;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class VacunaAlertaScheduler {
@@ -15,10 +16,16 @@ public class VacunaAlertaScheduler {
         this.emailService = emailService;
     }
 
+
     @Scheduled(cron = "0 0 8 * * *")
-    public void enviarAlertasDiarias() {
-        for (Vacuna vacuna : vacunaService.buscarProximasAVencer()) {
-            emailService.enviarAlertaVacunaProximaAVencer(vacuna);
+    @Transactional(readOnly = true)
+    public void enviarRecordatorios() {
+        for (Vacuna vacuna : vacunaService.buscarParaRecordatorio()) {
+            try {
+                emailService.enviarAlertaVacunaProximaAVencer(vacuna);
+            } catch (Exception e) {
+                System.err.println("No se pudo enviar el recordatorio de la vacuna " + vacuna.getId() + ": " + e.getMessage());
+            }
         }
     }
 }
